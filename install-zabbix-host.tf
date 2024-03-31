@@ -21,28 +21,28 @@ metadata = {
     user-data = "${file("./meta.yml")}"
   }
 
-#connection {
-#      host = yandex_compute_instance.zabbix-host.network_interface.0.nat_ip_address
-#      user = "superuser"
-#      private_key = "${file("/home/medved/Desktop/id_rsa")}"
-#    }
+connection {
+      host = yandex_compute_instance.zabbix-host.network_interface.0.nat_ip_address
+      user = "superuser"
+      private_key = "${file("/home/medved/Desktop/id_rsa")}"
+    }
 
-#  provisioner "file" {
-#    source = "scripts/zabbix_server.conf"
-#    destination = "/tmp/zabbix_server.conf"
-#  }  
+  provisioner "file" {
+    source = "scripts/zabbix_server.conf"
+    destination = "/tmp/zabbix_server.conf"
+  }  
 
-#  provisioner "file" {
-#    source = "scripts/setupzabbix.sh"
-#    destination = "/tmp/setupzabbix.sh"
-#  }
+  provisioner "file" {
+    source = "scripts/setupzabbix.sh"
+    destination = "/tmp/setupzabbix.sh"
+  }
 
-#provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /tmp/setupzabbix.sh",
-#      "/tmp/setupzabbix.sh",            
-#    ]
-#  }
+provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/setupzabbix.sh",
+      "/tmp/setupzabbix.sh",            
+    ]
+  }
 }
 
 output "zabbix_host_ip_address" {
