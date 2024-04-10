@@ -44,13 +44,13 @@ provisioner "remote-exec" {
     ]
   }
 }
-
+//Записываем Zabbix Host IP-адрес в шаблон Ansible
 output "zabbix_host_ip_address" {
   value = yandex_compute_instance.zabbix-host.network_interface.0.ip_address
 }
 
 locals {
-  output_file_path = "/home/medved/Desktop/first_project/ansible/zabbix-agent_install/templates/zabbix_agentd.conf.j2"
+  output_file_path = "/home/medved/Desktop/fops-sysadm-diplom/ansible/zabbix-agent_install/templates/zabbix_agentd.conf.j2"
 }
 
 # Это провайдер "null_resource", который будет выполнен только после создания VM.
@@ -62,4 +62,11 @@ resource "null_resource" "write_vm_ip_to_file" {
   provisioner "local-exec" {
     command = "echo '\nServer=${yandex_compute_instance.zabbix-host.network_interface.0.ip_address}' >> ${local.output_file_path}"
   }
+}
+
+output "Zabbix_host_IP_NAT" {
+  value = yandex_compute_instance.zabbix-host.network_interface.0.nat_ip_address
+}
+output "Zabbix_host_Name" {
+  value       = yandex_compute_instance.zabbix-host.name
 }

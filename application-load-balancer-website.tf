@@ -1,3 +1,7 @@
+data "yandex_compute_image" "ubuntu_image" {
+  family = "ubuntu-2204-lts"
+}
+
 // Создание группы ВМ
 resource "yandex_compute_instance_group" "test-ig" {
   name                = "test-ig"
@@ -128,13 +132,10 @@ resource "yandex_alb_load_balancer" "alb-1" {
   }
 }
 
-output "IP_NAT" {
-  value = [
-    for instance in yandex_compute_instance_group.test-ig.instances[*] :
-    instance.network_interface[0].nat_ip_address
-  ]
+output "ngnix_IP_NAT" {
+  value = [for instance in yandex_compute_instance_group.test-ig.instances[*] : instance.network_interface[0].nat_ip_address]
 }
-output "vm_names" {
+output "ngnix_names" {
   description = "Имена виртуальных машин"
   value       = yandex_compute_instance_group.test-ig.instances[*].name
 }
